@@ -1,0 +1,22 @@
+{
+  "name": "hellonode",
+  "version": "1.0.0",
+  "description": "A Hello World HTTP server",
+  "main": "app/app.js",
+  "scripts": {
+    "test": "node test/test.js",
+    "start": "node app/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "node",
+    "docker",
+    "dockerfile"
+  ],
+  "author": "autoopsltd@outlook.com",
+  "license": "ISC"
+}
+
