@@ -144,7 +144,7 @@ pipeline {
                               "files": [
                                 {
                                   "pattern": "dist/*.js",
-                                  "target": "generic-local/ltest"
+                                  "target": "generic-local/ltest",
                                   "recursive": "false"
                                 }
                              ]
