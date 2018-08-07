@@ -156,13 +156,13 @@ pipeline {
                     }
                 }
             }
-        }
-        post {
-            success {
-                echo 'Artefact uploads completed successfully.'
-            }
-            failure {
-                echo 'Artefact uploads failed.'
+            post {
+                success {
+                    echo 'Artefact uploads completed successfully.'
+                }
+                failure {
+                    echo 'Artefact uploads failed.'
+                }
             }
         }
     }
