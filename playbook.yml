@@ -1,0 +1,11 @@
+---
+- name: Launch the container
+  remote_user: jenkins
+  hosts: testing
+  tasks: 
+    - name: Run Docker Compose
+      shell: docker-compose up -d
+    - name: List running containers
+      shell: docker-compose ps
+      register: containers
+    - debug: var=containers.stdout_lines
