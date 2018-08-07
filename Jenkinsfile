@@ -59,7 +59,9 @@ pipeline {
             agent any
             steps {
                 withSonarQubeEnv('sonarqube') {
-                    sh "${sonarScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://192.168.1.17:9000 -Dsonar.login=${sonarLogin} -Dsonar.projectName=ltest -Dsonar.projectVersion=${env.BUILD_NUMBER} -Dsonar.projectKey=NA -Dsonar.sources=. -Dsonar.language=js"
+                    withCredentials([string(credentialsId: 'sonar', variable: 'sonarLogin')]) {
+                        sh "${sonarScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://192.168.1.17:9000 -Dsonar.login=${sonarLogin} -Dsonar.projectName=ltest -Dsonar.projectVersion=${env.BUILD_NUMBER} -Dsonar.projectKey=NA -Dsonar.sources=. -Dsonar.language=js"
+                    }
                 }
             }
             post {
