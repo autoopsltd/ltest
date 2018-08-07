@@ -160,7 +160,7 @@ pipeline {
                 }
             }
             steps {
-                with DockerRegistry([ credentialsId: "dockerhub", url: "registry.hub.docker.io"]) {
+                withDockerRegistry([ credentialsId: "dockerhub", url: "registry.hub.docker.io"]) {
                     sh 'docker tag autoopsltd/ltest:testing autoopsltd/ltest:latest'
                     sh 'docker push autoopsltd/ltest:latest'
                 }
