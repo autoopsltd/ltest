@@ -48,7 +48,7 @@ pipeline {
                     echo 'Mocha/Istanbul testing worked.'
                     archiveArtifacts artifacts: 'app/*.js'
                     junit '**/artifacts/**/*.xml'
-                    publishHTML([reportDir: coverage, reportFiles: 'index.html', reportName: 'Istanbul', reportTitles: ''])
+                    publishHTML([reportDir: coverage, reportFiles: 'index.html', reportName: 'Istanbul', reportTitles: '', keepAll: false])
                 }
                 failure {
                     echo 'Mocha/Istanbul testing failed'
@@ -90,26 +90,26 @@ pipeline {
         always {
             echo 'Jenkins job finished processing'
         }
-        success {
-            echo "Jenkins job ${env.JOB_NAME} completed successfully"
-            mail to: 'autoopsltd@outlook.com'
-                 from: 'admin@jenkins.com'
-                 subject: "Jenkins job ${env.JOB_NAME} completed successfully"
-                 body: "Pipeline job ${env.JOB_NAME} from branch ${env.BRANCH_NAME} completed successfully.  For more details visit: ${env.BUILD_URL}"
-        }
-        failure {
-            echo "Jenkins job ${env.JOB_NAME} failed"
-            mail to: 'autoopsltd@outlook.com'
-                 from: 'admin@jenkins.com'
-                 subject: "Jenkins job ${env.JOB_NAME} failed"
-                 body: "Pipeline job ${env.JOB_NAME} from branch ${env.BRANCH_NAME} failed.  For more details visit: ${env.BUILD_URL}"
-        }
-        unstable {
-            echo "Jenkins job ${env.JOB_NAME} is unstable"
-            mail to: 'autoopsltd@outlook.com'
-                 from: 'admin@jenkins.com'
-                 subject: "Jenkins job ${env.JOB_NAME} is unstable"
-                 body: "Pipeline job ${env.JOB_NAME} from branch ${env.BRANCH_NAME} is unstable.  For more details visit: ${env.BUILD_URL}"
-        }
+        // success {
+        //     echo "Jenkins job ${env.JOB_NAME} completed successfully"
+        //     mail to: 'autoopsltd@outlook.com'
+        //          from: 'admin@jenkins.com'
+        //          subject: "Jenkins job ${env.JOB_NAME} completed successfully"
+        //          body: "Pipeline job ${env.JOB_NAME} from branch ${env.BRANCH_NAME} completed successfully.  For more details visit: ${env.BUILD_URL}"
+        // }
+        // failure {
+        //     echo "Jenkins job ${env.JOB_NAME} failed"
+        //     mail to: 'autoopsltd@outlook.com'
+        //          from: 'admin@jenkins.com'
+        //          subject: "Jenkins job ${env.JOB_NAME} failed"
+        //          body: "Pipeline job ${env.JOB_NAME} from branch ${env.BRANCH_NAME} failed.  For more details visit: ${env.BUILD_URL}"
+        // }
+        // unstable {
+        //     echo "Jenkins job ${env.JOB_NAME} is unstable"
+        //     mail to: 'autoopsltd@outlook.com'
+        //          from: 'admin@jenkins.com'
+        //          subject: "Jenkins job ${env.JOB_NAME} is unstable"
+        //          body: "Pipeline job ${env.JOB_NAME} from branch ${env.BRANCH_NAME} is unstable.  For more details visit: ${env.BUILD_URL}"
+        // }
     }
 }
