@@ -5,7 +5,7 @@ gulp.task('scripts', function() {
    console.log('Starting scripts task');
    return gulp.src('app/app.js')
       .pipe(uglify())
-      .pipe(gulp.dest(('dist'));
+      .pipe(gulp.dest('dist'));
 });
 
 gulp.task('default', function() {
