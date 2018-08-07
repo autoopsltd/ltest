@@ -48,7 +48,7 @@ pipeline {
                     echo 'Mocha/Istanbul testing worked.'
                     archiveArtifacts artifacts: 'app/*.js'
                     junit '**/artifacts/**/*.xml'
-                    publishHTML([reportDir: coverage, reportFiles: 'index.html', reportName: 'Istanbul'])
+                    publishHTML([reportDir: coverage, reportFiles: 'index.html', reportName: 'Istanbul', reportTitles: ''])
                 }
                 failure {
                     echo 'Mocha/Istanbul testing failed'
