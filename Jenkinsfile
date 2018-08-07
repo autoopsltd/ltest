@@ -152,13 +152,7 @@ pipeline {
             }
         }
         stage('Docker tag & push') {
-            agent {
-                dockerfile {
-                    filename 'Dockerfile'
-                    reuseNode true
-                    additionalBuildArgs '--tag autoopsltd/ltest:latest'
-                }
-            }
+            agent any
             steps {
                 withDockerRegistry([ credentialsId: "dockerhub", url: ""]) {
                     sh 'docker tag autoopsltd/ltest:testing autoopsltd/ltest:latest'
