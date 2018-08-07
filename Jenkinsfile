@@ -95,20 +95,6 @@ pipeline {
                 }
             }
         }
-        stage('ansible launch') {
-            agent any
-            steps {
-                sh 'ansible-playbook -i /root/ansible/inventory ./playbook.yml'
-            }
-            post {
-                success {
-                    echo 'Ansible playbook ran successfully.'
-                }
-                failure {
-                    echo 'Ansible playbook run failed.'
-                }
-            }
-        }
         stage('Parallel Upload') {
             when {
                 branch 'master'
@@ -162,6 +148,43 @@ pipeline {
                 }
                 failure {
                     echo 'Artefact uploads failed.'
+                }
+            }
+        }
+        stage('Docker tag & push') {
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    reuseNode true
+                    additionalBuildArgs '--tag autoopsltd/ltest:latest'
+                }
+            }
+            steps {
+                with DockerRegistry([ credentialsId: "dockerhub", url: "registry.hub.docker.io"]) {
+                    sh 'docker tag autoopsltd/ltest:testing autoopsltd/ltest:latest'
+                    sh 'docker push autoopsltd/ltest:latest'
+                }
+            }
+            post {
+                success {
+                    echo 'Docker push completed successfully.'
+                }
+                failure {
+                    echo 'Docker push failed.'
+                }
+            }
+        }
+        stage('ansible launch') {
+            agent any
+            steps {
+                sh 'ansible-playbook -i /root/ansible/inventory ./playbook.yml'
+            }
+            post {
+                success {
+                    echo 'Ansible playbook ran successfully.'
+                }
+                failure {
+                    echo 'Ansible playbook run failed.'
                 }
             }
         }
