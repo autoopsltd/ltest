@@ -32,6 +32,27 @@ pipeline {
                 }
             }
         }
+        stage('Gulp Tasks') {
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    reuseNode true
+                    additionalBuildArgs '--tag autoopsltd/ltest:testing'
+                }
+            }
+            steps {
+                sh 'npm install --save-dev gulp gulp-uglify'
+                sh 'node_modules/.bin/gulp scripts'
+            }
+            post {
+                success {
+                    echo 'Gulp tasks worked.'
+                }
+                failure {
+                    echo 'Gulp tasks failed'
+                }
+            }
+        }
         stage('mocha/istanbul') {
             agent {
                 dockerfile {
@@ -46,7 +67,7 @@ pipeline {
             post {
                 success {
                     echo 'Mocha/Istanbul testing worked.'
-                    archiveArtifacts artifacts: 'app/*.js'
+                    archiveArtifacts artifacts: 'dist/*.js'
                     junit '**/artifacts/**/*.xml'
                     //publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'coverage', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
                     publishHTML([reportDir: 'coverage', reportFiles: 'index.html', reportName: 'Istanbul', reportTitles: '', keepAll: false, alwaysLinkToLastBuild: false, allowMissing: false])
@@ -88,6 +109,13 @@ pipeline {
                 }
             }
         }
+        //stage('Parallel Upload') {
+        //    when {
+        //        branch: 'master'
+        //    }
+
+
+        //}
     }
     post {
         always {
