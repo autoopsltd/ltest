@@ -1,5 +1,6 @@
 version: '3'
 services:
-  image: autoopsltd/ltest:testing
-  ports:
-    - 3000:3000
+  ltestnode:
+    image: autoopsltd/ltest:testing
+    ports:
+      - 3000:3000
