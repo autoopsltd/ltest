@@ -109,13 +109,62 @@ pipeline {
                 }
             }
         }
-        //stage('Parallel Upload') {
-        //    when {
-        //        branch: 'master'
-        //    }
-
-
-        //}
+        stage('Parallel Upload') {
+            when {
+                branch 'master'
+            }
+            parallel {
+                stage('Upload to Nexus') {
+                    agent {
+                        dockerfile {
+                            filename 'Dockerfile'
+                            reuseNode true
+                            additionalBuildArgs '--tag autoopsltd/ltest:testing'
+                        }
+                    }
+                    steps {
+                        sh 'npm --version'
+                        sh './setup_nexus.sh'
+                        sh 'npm publish --registry http://192.168.1.17:8082/repository/npm-internal/'
+                        sh 'rm -f .npmrc'
+                    }
+                }
+                stage('Upload to Artifactory') {
+                    agent {
+                        dockerfile {
+                            filename 'Dockerfile'
+                            reuseNode true
+                            additionalBuildArgs '--tag autoopsltd/ltest:testing'
+                        }
+                    }
+                    steps {
+                        script {
+                            def server = Artifactory.server 'artifactory'
+                            def uploadSpec = """{
+                              "files": [
+                                {
+                                  "pattern": "dist/*.js",
+                                  "target": "generic-local/ltest"
+                                  "recursive": "false"
+                                }
+                             ]
+                            }"""
+                            server.upload(uploadSpec)
+                            def buildInfo2 = server.upload uploadSpec
+                            server.publishBuildInfo buildInfo1
+                        }
+                    }
+                }
+            }
+        }
+        post {
+            success {
+                echo 'Artefact uploads completed successfully.'
+            }
+            failure {
+                echo 'Artefact uploads failed.'
+            }
+        }
     }
     post {
         always {
