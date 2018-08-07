@@ -93,11 +93,18 @@ pipeline {
             echo 'Jenkins job finished processing'
         }
         success {
-            echo "Jenkins job ${env.JOB_NAME} completed successfully"
-            mail to: 'autoopsltd@outlook.com'
-                 from: 'admin@jenkins.com'
-                 subject: "Jenkins job ${env.JOB_NAME} completed successfully"
-                 body: "Pipeline job ${env.JOB_NAME} from branch ${env.BRANCH_NAME} completed successfully.  For more details visit: ${env.BUILD_URL}"
+                    echo "Pipeline job ${env.JOB_NAME} completed successfully with no errors."
+                    mail to: 'autoopsltd@outlook.com',
+                         from: 'jenkins_admin@jenkins.com',
+                         subject: "Pipeline Successful : ${env.JOB_NAME}",
+                         body: "Pipeline job ${env.JOB_NAME} from branch ${env.BRANCH_NAME} completed successfully.  For further details visit ${env.BUILD_URL}."
+        }
+        //success {
+          //  echo "Jenkins job ${env.JOB_NAME} completed successfully"
+            //mail to: 'autoopsltd@outlook.com'
+              //   from: 'admin@jenkins.com'
+                // subject: "Jenkins job ${env.JOB_NAME} completed successfully"
+                 //body: "Pipeline job ${env.JOB_NAME} from branch ${env.BRANCH_NAME} completed successfully.  For more details visit: ${env.BUILD_URL}"
         }
         // failure {
         //     echo "Jenkins job ${env.JOB_NAME} failed"
