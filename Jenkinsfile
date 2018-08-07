@@ -14,7 +14,7 @@ pipeline {
         stage('npm build') {
             agent {
                 dockerfile {
-                    filename: 'Dockerfile'
+                    filename 'Dockerfile'
                     reuseNode true
                     additionalBuildArgs '--tag autoopsltd/ltest:testing'
                 }
@@ -35,7 +35,7 @@ pipeline {
         stage('mocha/istanbul') {
             agent {
                 dockerfile {
-                    filename: 'Dockerfile'
+                    filename 'Dockerfile'
                     reuseNode true
                     additionalBuildArgs '--tag autoopsltd/ltest:testing'
                 }
