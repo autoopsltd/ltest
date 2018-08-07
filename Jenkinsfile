@@ -150,7 +150,7 @@ pipeline {
                              ]
                             }"""
                             server.upload(uploadSpec)
-                            def buildInfo2 = server.upload uploadSpec
+                            def buildInfo1 = server.upload uploadSpec
                             server.publishBuildInfo buildInfo1
                         }
                     }
